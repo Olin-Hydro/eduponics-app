@@ -1,0 +1,32 @@
+enum Action {
+  ON
+  OFF
+}
+
+type CmdLog @model(timestamps: null) @auth(rules: [{ allow: public }]) {
+  id: ID!
+  target: String!
+  start_time: String!
+  on_interval: String!
+  off_interval: String!
+  timestamp: AWSTimestamp!
+}
+
+type ActionLog @model(timestamps: null) @auth(rules: [{ allow: public }]) {
+  id: ID!
+  target: String!
+  action: Action!
+  timestamp: AWSTimestamp!
+}
+
+type SensorLog @model(timestamps: null) @auth(rules: [{ allow: public }]) {
+  id: ID!
+  target: String!
+    @index(
+      name: "listSensorLogsByTimestamp"
+      queryField: "listSensorLogsByTimestamp"
+      sortKeyFields: ["timestamp"]
+    )
+  value: Float!
+  timestamp: AWSTimestamp!
+}

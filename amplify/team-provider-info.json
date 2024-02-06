@@ -1,0 +1,24 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-eduponicsapp-dev-181923-authRole",
+      "UnauthRoleArn": "arn:aws:iam::128824347591:role/amplify-eduponicsapp-dev-181923-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::128824347591:role/amplify-eduponicsapp-dev-181923-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-eduponicsapp-dev-181923-deployment",
+      "UnauthRoleName": "amplify-eduponicsapp-dev-181923-unauthRole",
+      "StackName": "amplify-eduponicsapp-dev-181923",
+      "StackId": "arn:aws:cloudformation:us-east-2:128824347591:stack/amplify-eduponicsapp-dev-181923/2acfd430-c546-11ee-948f-0252be4c4c6b",
+      "AmplifyAppId": "d4h4r8gki4ps7"
+    },
+    "categories": {
+      "auth": {
+        "eduponicsapp5754a9b4": {},
+        "userPoolGroups": {}
+      },
+      "api": {
+        "eduponicsapp": {}
+      }
+    }
+  }
+}
