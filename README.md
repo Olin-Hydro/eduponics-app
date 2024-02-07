@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# Web Application for Hydroponic System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The objective of this application is to provide different types of users -- admins and community members -- a way of interacting with our physical hydroponic system. It can serve as an accessible window for admins to remotely control the system and automate it as they see fit. For the community members, you can see the historical sensor data and the patterns from the system. With those functionalities in mind, we created a web application using AWS Amplify.
 
-## Available Scripts
+Amplify is a convenient platform for developing fullstack application that span across various AWS services. For instance, it will automatically link your application to AppSync GraphQL API and also create DynamoDB database tables for each models you define in the schema. It also provides free web hosting, which we have used as well.
 
-In the project directory, you can run:
+## Functionalities
 
-### `npm start`
+The main functionalities are as follows:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### MQTT Client
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Send commands for scheduling when the actuators turn on**
+Select your desired actuator (ex. water pump), select start time, on interval, and off interval. The actuator will then turn on at the start time for your on interval, turn off for your off interval, and repeat until a new schedule gets issued.
 
-### `npm test`
+#### Sensor Data Charts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Retrieve historical sensor data and plot them against time**
+The chart component will load the latest 100 sensor logs from the database and create a line chart for each sensor data type. Also, the chart will automatically update itself and load new data points as they get saved realtime.
 
-### `npm run build`
+#### Authentication
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Admin and observer user groups**
+Through AWS Cognito service, we created user groups of varying levels of access. Normally, when a user creates an account through the app, the user will not have rights to publish any commands to the hydroponic system. This is to prevent any physical abuse/misuse of our hydroponic system because the commands users issue will be reflected in a very physical sense. Thus, only users who are added to the admin user group will be authorized to send commands.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Structure of the App
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app is built using JavaScript and React.js, and was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) through Amplify's CLI command `amplify init`.
 
-### `npm run eject`
+```
+.
+├── amplify
+│   └── backend
+│       ├── api
+│       ├── auth
+│       └── types
+├── public
+└── src
+    ├── components
+    │   └── Dashboard
+    ├── graphql
+    └── ui-components
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+_The above shows relevant directories in the repo._
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+In the root directory, you'll find `./amplify` which contains various configurations pertaining to the GraphQL API, authorizations, and general configurations. Then, in the `./public` directory, you can find `index.html`, which is what ultimately gets display on the webpage, along with some metadata files. Finally, in the `./src` directory, you'll find `components` folder which has all the custom React components we developed for the application. In the `graphql` and `ui-components` folder, you'll find portable query, mutation, and subscription calls, as well as some UI components that use them that were auto-generated some our GraphQL schema.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Services Used
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The main AWS services used are:
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- IoT Core => MQTT server, message routing
+- Cognito => Authentication, access levels
+- Appsync => GraphQL API
+- DynamoDB => Database for sensor logs
+- Amplify => Fullstack development, hosting
