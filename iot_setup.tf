@@ -134,6 +134,10 @@ resource "aws_iam_role" "dynamodb_iot_role" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "attach_dynampodb_policy" {
+  role       = aws_iam_role.dynamodb_iot_role.name
+  policy_arn = aws_iam_policy.dynamodb_policy_iot.arn
+}
 
 resource "aws_iot_topic_rule" "dynamodb_logging" {
   description = "Store sensor log to dynamodb"
